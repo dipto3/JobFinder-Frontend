@@ -1,4 +1,8 @@
+import { useAuth } from "../../hooks/useAuth";
+
 export default function HomePage() {
+  const { auth } = useAuth();
+  console.log(auth);
   return (
     <>
       <main className="mt-28 px-4 sm:px-6 lg:px-8 pb-20 max-w-7xl mx-auto">
