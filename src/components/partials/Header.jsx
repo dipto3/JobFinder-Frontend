@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/svg/search-2-fill-blue.svg";
 import UserIcon from "../../assets/svg/user-3-fill.svg";
+import { useAuth } from "../../hooks/useAuth";
 import Logout from "../auth/Logout";
 export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -10,6 +11,7 @@ export default function Header() {
     console.log(isDropdownOpen);
     setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen);
   }
+  const { auth } = useAuth();
   return (
     <>
       <header className="">
@@ -25,50 +27,54 @@ export default function Header() {
               </span>
             </Link>
             <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-              <div className="relative">
-                <button
-                  onClick={toggleDropdown}
-                  className="text-gray-500 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
-                >
-                  <img
-                    src={UserIcon}
-                    className="w-9 h-9 p-1 space-x-5 border border-gray-700 rounded-full mx-5"
-                    alt="Profile Icon"
-                  />
-                </button>
+              {auth?.user ? (
+                <div className="relative">
+                  <button
+                    onClick={toggleDropdown}
+                    className="text-gray-500 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
+                  >
+                    <img
+                      src={UserIcon}
+                      className="w-9 h-9 p-1 space-x-5 border border-gray-700 rounded-full mx-5"
+                      alt="Profile Icon"
+                    />
+                  </button>
 
-                {isDropdownOpen && (
-                  <div className="flex absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-lg">
-                    <ul className="py-2">
-                      <li>
-                        <Link
-                          to="/me"
-                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          Profile
-                        </Link>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          Settings
-                        </a>
-                      </li>
-                      <li>
-                        <Logout />
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-              <Link
-                to="/login"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Login
-              </Link>
+                  {isDropdownOpen && (
+                    <div className="flex absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-lg">
+                      <ul className="py-2">
+                        <li>
+                          <Link
+                            to="/me"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          >
+                            Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          >
+                            Settings
+                          </a>
+                        </li>
+                        <li>
+                          <Logout />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Login
+                </Link>
+              )}
+
               <button
                 data-collapse-toggle="navbar-sticky"
                 type="button"
