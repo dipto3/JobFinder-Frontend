@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegistrationForm() {
   const {
@@ -8,8 +8,10 @@ export default function RegistrationForm() {
     formState: { errors },
     setError,
   } = useForm();
+  
   function submitForm(formData) {
     console.log(formData);
+    
   }
   return (
     <>

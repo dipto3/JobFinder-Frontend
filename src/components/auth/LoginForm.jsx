@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const {
@@ -8,12 +8,14 @@ export default function LoginForm() {
     formState: { errors },
     setError,
   } = useForm();
+  const navigate = useNavigate();
   function submitForm(formData) {
+    navigate("/");
     console.log(formData);
   }
   return (
     <>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form onSubmit={handleSubmit(submitForm)}>
         <div className="mb-5">
           <label
             for="email"
