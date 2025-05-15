@@ -8,6 +8,7 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 import ProfilePage from "./components/pages/ProfilePage";
 import RegisterPage from "./components/pages/RegisterPage";
 import Layout from "./components/partials/Layout";
+import PrivateRoutes from "./routes/PrivateRoutes";
 function App() {
   useEffect(() => {
     const script = document.createElement("script");
@@ -24,12 +25,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route element={<ProfilePage />} path="me" />
+          <Route element={<PrivateRoutes />}>
+            <Route element={<ProfilePage />} path="me" />
+          </Route>
         </Route>
-       
+
         <Route element={<LoginPage />} path="/login" />
         <Route element={<RegisterPage />} path="/register" />
-     
 
         <Route element={<NotFoundPage />} path="*" />
       </Routes>
