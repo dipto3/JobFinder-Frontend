@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import { useProfile } from "../../hooks/useProfile";
 import ProfileLoadingSkeleton from "../LoadingSkeleton/ProfileLoadingSkeleton";
 
 export default function ProfilePage() {
@@ -9,6 +10,7 @@ export default function ProfilePage() {
   const { auth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { setProfileState } = useProfile();
   useEffect(() => {
     setLoading(true);
     async function fetchProfile() {
@@ -17,6 +19,7 @@ export default function ProfilePage() {
           `${import.meta.env.VITE_SERVER_BASE_URL}/api/candidate/profile`
         );
         console.log(response?.data.data);
+        setProfileState(response?.data.data);
         setUser(response?.data.data);
       } catch (error) {
         setError(error);
@@ -127,7 +130,7 @@ export default function ProfilePage() {
                 About
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                {user?.about ?? 'N/A'}
+                {user?.about ?? "N/A"}
               </p>
             </div>
 

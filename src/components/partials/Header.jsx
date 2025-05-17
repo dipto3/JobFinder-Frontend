@@ -2,8 +2,8 @@ import "flowbite";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchIcon from "../../assets/svg/search-2-fill-blue.svg";
-import UserIcon from "../../assets/svg/user-3-fill.svg";
 import { useAuth } from "../../hooks/useAuth";
+import { useProfile } from "../../hooks/useProfile";
 import Logout from "../auth/Logout";
 export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,6 +12,9 @@ export default function Header() {
     setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen);
   }
   const { auth } = useAuth();
+  const { profileState } = useProfile();
+  const user = profileState ?? auth?.user;
+  // const {profileState}
   return (
     <>
       <header className="">
@@ -35,12 +38,12 @@ export default function Header() {
                       className=" text-gray-500 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
                     >
                       <img
-                        src={UserIcon}
+                        src={user?.image}
                         className="w-9 h-9 p-1 space-x-5 border border-gray-700 rounded-full mx-5"
                         alt="Profile Icon"
                       />
                     </button>
-                    <h5 className="dark:text-white">Hey, {auth?.user?.name}</h5>
+                    <h5 className="dark:text-white">Hey, {user?.name}</h5>
                   </div>
 
                   {isDropdownOpen && (
