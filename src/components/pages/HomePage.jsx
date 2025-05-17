@@ -1,8 +1,34 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
+import CategoryCard from "../CategoryCard";
+import CategoryCardSkeleton from "../LoadingSkeleton/CategoryCardSkeleton";
 
 export default function HomePage() {
   const { auth } = useAuth();
-  console.log(auth);
+  const [categoryLoading, setCategoryLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [category, setCategory] = useState([]);
+  // console.log(auth);
+  useEffect(() => {
+    setCategoryLoading(true);
+    async function getCategories() {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_BASE_URL}/api/categories`
+        );
+        if (response.status == 200) {
+          setCategory(response.data.data);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setCategoryLoading(false);
+      }
+    }
+    getCategories();
+  }, []);
+
   return (
     <>
       <main className="mt-28 px-4 sm:px-6 lg:px-8 pb-20 max-w-7xl mx-auto">
@@ -57,64 +83,19 @@ export default function HomePage() {
             Browse Categories
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <a href="#" className="category-card">
-              <div className="h-full p-6 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center text-center">
-                <img
-                  src="./svg/macbook-fill.svg"
-                  alt="Remote"
-                  className="w-14 h-14 mb-4"
-                />
-                <h3 className="text-lg font-medium dark:text-white">Remote</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-                  125 jobs
-                </p>
-              </div>
-            </a>
-            <a href="#" className="category-card">
-              <div className="h-full p-6 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center text-center">
-                <img
-                  src="./svg/briefcase-4-fill.svg"
-                  alt="Full-Time"
-                  className="w-14 h-14 mb-4"
-                />
-                <h3 className="text-lg font-medium dark:text-white">
-                  Full-Time
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-                  342 jobs
-                </p>
-              </div>
-            </a>
-            <a href="#" className="category-card">
-              <div className="h-full p-6 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center text-center">
-                <img
-                  src="./svg/timer-2-fill.svg"
-                  alt="Part-Time"
-                  className="w-14 h-14 mb-4"
-                />
-                <h3 className="text-lg font-medium dark:text-white">
-                  Part-Time
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-                  87 jobs
-                </p>
-              </div>
-            </a>
-            <a href="#" className="category-card">
-              <div className="h-full p-6 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center text-center">
-                <img
-                  src="./svg/graduation-cap-fill.svg"
-                  alt="Internship"
-                  className="w-14 h-14 mb-4"
-                />
-                <h3 className="text-lg font-medium dark:text-white">
-                  Internship
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-                  56 jobs
-                </p>
-              </div>
-            </a>
+            {categoryLoading ? (
+              <>
+                <CategoryCardSkeleton />
+              </>
+            ) : error ? (
+              <p>Something went wrong.</p>
+            ) : category.length > 0 ? (
+              category.map((item) => (
+                <CategoryCard key={item.id} category={item} />
+              ))
+            ) : (
+              <p>Not Available</p>
+            )}
           </div>
         </section>
 
