@@ -22,12 +22,25 @@ export default function RegistrationForm() {
         navigate("/login");
       }
     } catch (error) {
-      console.log(error);
+      if (error.response) {
+        setError("root", {
+          type: "manual",
+          message: error.response.data.message,
+        });
+      } else {
+        setError("root", {
+          type: "manual",
+          message: "Something went wrong!",
+        });
+      }
     }
   }
   return (
     <>
       <form onSubmit={handleSubmit(submitForm)}>
+        {errors.root && (
+          <p className="text-red-500 text-center mt-2">{errors.root.message}</p>
+        )}
         <div className="mb-4">
           <label
             for="fullname"
