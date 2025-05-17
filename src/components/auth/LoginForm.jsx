@@ -33,7 +33,7 @@ export default function LoginForm() {
   return (
     <>
       <form onSubmit={handleSubmit(submitForm)}>
-<p className="text-red-500 mt-0">{errors?.root?.random?.message}</p>
+        <p className="text-red-500 mt-0">{errors?.root?.random?.message}</p>
 
         <div className="mb-5">
           <label
@@ -125,9 +125,8 @@ export default function LoginForm() {
             >
               Remember me
             </label>
-            
           </div>
-          
+
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200"

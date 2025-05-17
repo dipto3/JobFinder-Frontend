@@ -6,6 +6,7 @@ export default function Logout() {
   const { setAuth } = useAuth();
   function handleLogout() {
     setAuth({});
+    localStorage.removeItem("auth");
     navigate("/");
   }
   return (

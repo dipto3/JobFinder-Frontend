@@ -28,17 +28,20 @@ export default function Header() {
             </Link>
             <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
               {auth?.user ? (
-                <div className="relative">
-                  <button
-                    onClick={toggleDropdown}
-                    className="text-gray-500 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
-                  >
-                    <img
-                      src={UserIcon}
-                      className="w-9 h-9 p-1 space-x-5 border border-gray-700 rounded-full mx-5"
-                      alt="Profile Icon"
-                    />
-                  </button>
+                <div className=" relative items-center">
+                  <div className="flex items-center">
+                    <button
+                      onClick={toggleDropdown}
+                      className=" text-gray-500 dark:text-white hover:text-blue-700 dark:hover:text-blue-500"
+                    >
+                      <img
+                        src={UserIcon}
+                        className="w-9 h-9 p-1 space-x-5 border border-gray-700 rounded-full mx-5"
+                        alt="Profile Icon"
+                      />
+                    </button>
+                    <h5 className="dark:text-white">Hey, {auth?.user?.name}</h5>
+                  </div>
 
                   {isDropdownOpen && (
                     <div className="flex absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg shadow-lg">
