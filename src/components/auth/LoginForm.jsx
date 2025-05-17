@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -7,18 +8,33 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-  function submitForm(formData) {
-    navigate("/");
-    const user = { ...formData };
-    setAuth({user});
-    console.log(formData);
+  async function submitForm(formData) {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/candidate/login`,
+        formData
+      );
+      if (response.status == 200) {
+        const { token, user } = response.data;
+        setAuth({ user, token });
+        navigate("/");
+      }
+    } catch (error) {
+      setError("root.random", {
+        type: "random",
+        message: `User with email ${formData.email} is not found`,
+      });
+    }
   }
   return (
     <>
       <form onSubmit={handleSubmit(submitForm)}>
+<p className="text-red-500 mt-0">{errors?.root?.random?.message}</p>
+
         <div className="mb-5">
           <label
             for="email"
@@ -96,7 +112,6 @@ export default function LoginForm() {
             </a>
           </div>
         </div>
-
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <input
@@ -110,7 +125,9 @@ export default function LoginForm() {
             >
               Remember me
             </label>
+            
           </div>
+          
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200"
