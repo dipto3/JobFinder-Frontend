@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,10 +9,21 @@ export default function RegistrationForm() {
     formState: { errors },
     setError,
   } = useForm();
-  
-  function submitForm(formData) {
-    console.log(formData);
-    
+  const navigate = useNavigate();
+
+  async function submitForm(formData) {
+    // console.log(formData);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/api/candidate/register`,
+        formData
+      );
+      if (response.status == 201) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -139,9 +151,16 @@ export default function RegistrationForm() {
             <input
               type="password"
               id="confirmPassword"
-              name="confirmPassword"
+              name="password_confirmation"
               className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="••••••••"
+              {...register("password_confirmation", {
+                required: "password_confirmation is required",
+                minLength: {
+                  value: 8,
+                  message: "Your password must be 8 characters",
+                },
+              })}
             />
             <button
               type="button"

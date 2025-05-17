@@ -38,17 +38,17 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="relative">
               <img
-                src="./svg/user-3-fill.svg"
+                src={user?.image}
                 alt="Profile"
                 className="w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 shadow-lg"
               />
-              <button className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-md">
+              {/* <button className="absolute bottom-0 right-0 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-md">
                 <img
                   src="./svg/camera-fill.svg"
                   alt="Edit"
                   className="w-5 h-5"
                 />
-              </button>
+              </button> */}
             </div>
 
             <div className="flex-1">
@@ -58,7 +58,7 @@ export default function ProfilePage() {
                     {user?.name}
                   </h1>
                   <p className="text-lg text-gray-600 dark:text-gray-400">
-                    Senior UI/UX Designer
+                    {user?.designation}
                   </p>
                   <div className="flex items-center mt-2 text-gray-600 dark:text-gray-400">
                     <img
@@ -66,7 +66,7 @@ export default function ProfilePage() {
                       alt="Location"
                       className="w-5 h-5 mr-2"
                     />
-                    <span>San Francisco, CA</span>
+                    <span>{user?.address}</span>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -127,10 +127,7 @@ export default function ProfilePage() {
                 About
               </h2>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                Creative UI/UX designer with 8+ years of experience designing
-                beautiful, functional interfaces for web and mobile
-                applications. Passionate about user-centered design and creating
-                intuitive experiences that solve real problems.
+                {user?.about ?? 'N/A'}
               </p>
             </div>
 
