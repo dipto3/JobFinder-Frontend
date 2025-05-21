@@ -1,10 +1,12 @@
+import DefaultLogo from "../assets/svg/category-svgrepo-com.svg";
+
 export default function CategoryCard({ category }) {
   return (
     <>
       <a href="#" className="category-card">
         <div className="h-full p-6 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center text-center">
           <img
-            src="./svg/macbook-fill.svg"
+            src={category.logo ?? DefaultLogo}
             alt="Remote"
             className="w-14 h-14 mb-4"
           />

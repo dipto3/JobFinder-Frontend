@@ -11,6 +11,7 @@ export default function AuthProvider({ children }) {
       localStorage.setItem("auth", JSON.stringify(auth));
     } else {
       localStorage.removeItem("auth");
+      // localStorage.removeItem("savedProfile");
     }
   }, [auth]);
   return (
